@@ -2,6 +2,9 @@
 #define IMAGE_HEADER
 #include <iostream>
 #include <memory>
+#include <fstream>
+#include <vector>
+#include <sstream>
 class Image{
   private:  
     int width, height;
@@ -18,9 +21,15 @@ class Image{
 
       public: //copy construct is public
         iterator(const iterator &rhs) : ptr(rhs.ptr) {}
+        //Destructor
+        ~iterator();
         // define overloaded ops: *, ++, --, =
+
         iterator &operator=(const iterator &rhs)
         {}
+
+        iterator* operator*() const;
+        friend void swap(iterator &lhs, iterator &rhs);
     };
         // other methods for iterator
     // define begin()/end() to get iterator to start and

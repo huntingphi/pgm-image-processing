@@ -33,7 +33,35 @@ bool Image::operator!=(const Image &other) const{}
     ///////////////////////////////////////////////////
 
 void Image::load(std::string input_name) {
-    
+    std::ifstream file(input_name,std::ios::in|std::ios::binary);
+    if (!file.is_open())
+    {
+        std::cerr << "There was a problem opening the input file" << std::endl;
+    }
+    std::vector<std::string> lines;
+    std::string line;
+    std::cout << "Begin reading" << std::endl;
+    // file>>line;
+    // std::cout << line << std::endl;
+    int i = 0;
+    std::getline(file, line, '\n');
+    do
+    {
+        if (line[0]!='#'){
+            i++;
+            lines.push_back(line);
+            std::cout << line << std::endl;
+            }
+            
+        if (i>2) break;
+    } while (std::getline(file, line, '\n'));
+    // file.seekg(53);
+    std::stringstream height_width(lines[1]);
+    height_width>>height>>width;
+    int length_of_data = width*height;
+    char *buffer = new char[length_of_data];
+    file.read(buffer, length_of_data);
+    data = std::unique_ptr<unsigned char []>((unsigned char *) buffer);
 }
 void Image::save(std::string output_name) {
 
