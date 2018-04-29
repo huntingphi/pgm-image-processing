@@ -8,9 +8,9 @@
 class Image{
   private:  
     int width, height;
-    std::unique_ptr<unsigned char[]> data;
 
   public:
+    std::unique_ptr<unsigned char[]> data;
     class iterator
     {
         friend Image;
@@ -22,22 +22,55 @@ class Image{
       public: //copy construct is public
         iterator(const iterator &rhs) : ptr(rhs.ptr) {}
         //Destructor
-        ~iterator();
+        ~iterator(){}
         // define overloaded ops: *, ++, --, =
 
         iterator &operator=(const iterator &rhs)
         {}
 
-        iterator* operator*() const;
+        unsigned char &operator*() { return *ptr; }
         friend void swap(iterator &lhs, iterator &rhs);
+        iterator &operator++(){
+            //prefix increment
+            ++ptr;
+            return *this;
+
+        } iterator &
+        operator++(int)
+        {
+          //postfix increment
+          iterator temp(*this);
+          operator++();
+          return temp;
+        }
+        iterator &operator--(){
+          //prefix decrement
+          --ptr;
+          return *this;
+        }
+        iterator &operator--(int){
+          //postfix decrement
+          iterator temp(*this);
+          operator--();
+          return temp;
+        }
+
+
     };
-        // other methods for iterator
+    // other methods for iterator
     // define begin()/end() to get iterator to start and
     // "one-past" end.
-    iterator begin(void) { return iterator(data.get()); } // etc
+    iterator begin(void) const{ return iterator(data.get()); } // etc
+    iterator end(void) const{
+      unsigned char* this_data = data.get();
+      // std::cout << "Width: " << width << " Height: " << height << '\n';
+      std::cout << " Begining address "<< long(data.get())<<" End address "<<long(&this_data[width*height]) << '\n';
+
+      return iterator(&this_data[width*height]);
+      } // etc
 
     // /***********************BIG SIX**********************/
-
+    Image(int w, int h, unsigned char *d);
     Image();
     ~Image();
 
