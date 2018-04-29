@@ -20,12 +20,12 @@ bool Image::operator+(const Image &other){
     iterator iter_to_add = other.begin();
     for (iterator iter_result = begin(); *iter_result != *end(); iter_result++)
     {
-        std::cout << "===================================================" << std::endl;
-        std::cout << *iter_result << std::endl;
-        std::cout << *iter_to_add << std::endl;
+        // std::cout << "===================================================" << std::endl;
+        // std::cout << *iter_result << std::endl;
+        // std::cout << *iter_to_add << std::endl;
         *iter_result = *iter_result + *iter_to_add;
-        std::cout << *iter_result << std::endl;
-        std::cout << "===================================================" << std::endl;
+        // std::cout << *iter_result << std::endl;
+        // std::cout << "===================================================" << std::endl;
         iter_to_add++;
     }
     //addition of two images (I1 + I2)
@@ -36,12 +36,12 @@ bool Image::operator-(const Image &other){
 iterator iter_to_subtract = other.begin();
 for (iterator iter_result = begin(); *iter_result != *end(); iter_result++)
 {
-    std::cout << "===================================================" << std::endl;
-    std::cout << *iter_result << std::endl;
-    std::cout << *iter_to_subtract << std::endl;
+    // std::cout << "===================================================" << std::endl;
+    // std::cout << *iter_result << std::endl;
+    // std::cout << *iter_to_subtract << std::endl;
     *iter_result = *iter_result - *iter_to_subtract;
-    std::cout << *iter_result << std::endl;
-    std::cout << "===================================================" << std::endl;
+    // std::cout << *iter_result << std::endl;
+    // std::cout << "===================================================" << std::endl;
     iter_to_subtract++;
 }
 } 
@@ -49,16 +49,39 @@ bool Image::operator!(){
 //Invert an image (!I2)
 for (iterator iter_result = begin(); *iter_result != *end(); iter_result++)
 {
-    std::cout << "===================================================" << std::endl;
-    std::cout << *iter_result << std::endl;
+    // std::cout << "===================================================" << std::endl;
+    // std::cout << *iter_result << std::endl;
     *iter_result = 255-*iter_result;
-    std::cout << *iter_result << std::endl;
-    std::cout << "===================================================" << std::endl;
+    // std::cout << *iter_result << std::endl;
+    // std::cout << "===================================================" << std::endl;
 }
 }   
-bool Image::operator/(const Image &){} //mask I1 with I2 (I1 / I2)
-bool Image::operator*(const Image &){} //threshold with f (int) (I1 * f)
-bool Image::operator%(const Image &){} //filter with f (int) (I1 * f)
+bool Image::operator/(const Image &other){
+//mask I1 with I2 (I1 / I2)
+// Image result;
+// data = {u_char(0)};
+
+iterator iter_to_mask = other.begin();
+for (iterator iter_result = begin(); *iter_result != *end(); iter_result++)
+{
+    // std::cout << "===================================================" << std::endl;
+    // std::cout << *iter_result << std::endl;
+    // std::cout << *iter_to_subtract << std::endl;
+    *iter_to_mask == u_char(255)? :u_char(0);
+    // std::cout << *iter_result << std::endl;
+    // std::cout << "===================================================" << std::endl;
+    iter_to_mask++;
+}
+
+} 
+bool Image::operator*(const Image &){
+//threshold with f (int) (I1 * f)
+
+} 
+bool Image::operator%(const Image &){
+ //filter with f (int) (I1 * f)
+
+}
 
     ///////////////////////////////////////////////////
 
@@ -74,6 +97,7 @@ bool Image::operator==(const Image &other) const{
         unsigned char* this_buffer = data.get();
         unsigned char* other_buffer = other.data.get();
         for(int i = 0; i<size_of_data;i++){
+            // std::cout<<this_buffer[i]<<" vs "<<other_buffer[i];
             if(this_buffer[i]!=other_buffer[i])return false;
         }
         return true;
@@ -91,7 +115,7 @@ void Image::load(std::string input_name) {
     }
     std::vector<std::string> lines;
     std::string line;
-    std::cout << "Begin reading" << std::endl;
+    // std::cout << "Begin reading" << std::endl;
     // file>>line;
     // std::cout << line << std::endl;
     int i = 0;
@@ -101,7 +125,7 @@ void Image::load(std::string input_name) {
         if (line[0]!='#'){
             i++;
             lines.push_back(line);
-            std::cout << line << std::endl;
+            // std::cout << line << std::endl;
             }
             
         if (i>2) break;
@@ -128,3 +152,8 @@ void Image::save(std::string output_name) {
             throw std::runtime_error("Could not open file: " + filepath);
         raw_image.close();
     }
+
+    // void Image::zero_data(){
+    //     int length_of_data = width * height;
+    //     char *buffer = new char[length_of_data];
+    // }

@@ -64,7 +64,7 @@ class Image{
     iterator end(void) const{
       unsigned char* this_data = data.get();
       // std::cout << "Width: " << width << " Height: " << height << '\n';
-      std::cout << " Begining address "<< long(data.get())<<" End address "<<long(&this_data[width*height]) << '\n';
+      // std::cout << " Begining address "<< long(data.get())<<" End address "<<long(&this_data[width*height]) << '\n';
 
       return iterator(&this_data[width*height]);
       } // etc

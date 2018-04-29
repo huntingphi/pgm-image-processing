@@ -47,3 +47,38 @@ TEST_CASE("Test add"){
     image_expected.load("saved_pgms/TestAdd.pgm");
     REQUIRE(image_result == image_expected);
 }
+
+TEST_CASE("Test subtract"){
+    Image image_result;
+    image_result.load("assets/Test.pgm");
+    Image image_to_add;
+    image_to_add.load("assets/Test2.pgm");
+    image_result - image_to_add;
+    image_result.save("TestSubtract");
+    Image image_expected;
+    image_expected.load("saved_pgms/TestSubtract.pgm");
+    REQUIRE(image_result == image_expected);
+}
+
+TEST_CASE("Test inverse"){
+    Image image_result;
+    image_result.load("assets/Lenna_standard.pgm");
+    // Image image_to_add;
+    // image_to_add.load("assets/Test2.pgm");
+    !image_result;
+    image_result.save("TestInverse");
+    // Image image_expected;
+    // image_expected.load("saved_pgms/TestInverse.pgm");
+    // REQUIRE(image_result == image_expected);
+}
+
+TEST_CASE("Test mask"){
+    Image image_result;
+    image_result.load("assets/shrek_rectangular.pgm");
+    Image image_mask;
+    image_mask.load("assets/donkey_mask.pgm");
+    image_result/image_mask;
+    image_result.save("TestMask");
+    // Image image_expected;
+    // image_expected.load("saved_pgms/TestSubtract.pgm");
+}
