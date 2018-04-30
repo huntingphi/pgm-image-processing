@@ -61,7 +61,7 @@ class Image{
           return temp;
         }
 
-        bool operator!=(const iterator &rhs)
+        bool operator!=(const iterator &rhs) const
         {
           return this->index != rhs.index;
         }
