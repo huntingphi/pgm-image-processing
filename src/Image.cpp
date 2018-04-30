@@ -60,24 +60,15 @@
 
     /****************BINARY OPERATOR OVERLOADING***************/
 bool Image::operator+(const Image &other){
+    //addition of two images (I1 + I2)
     iterator iter_to_add = other.begin();
     for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
-
     {
-        // std::cout << "===================================================" << std::endl;
-        // std::cout << *iter_result << std::endl;
-        // std::cout << *iter_to_add << std::endl;
         u_char value;
         value = *iter_result + *iter_to_add;
-        *iter_result = *iter_result+ *iter_to_add;
-                        //    *iter_result = clamp(value);
-
-                           // std::cout << *iter_result << std::endl;
-                        //    std::cout << "===================================================" << std::endl;
-                           iter_to_add++;
-                        //    std::cout << c<< std::endl;
+        *iter_result = clamp(value);
+         iter_to_add++;
     }
-    //addition of two images (I1 + I2)
 
 } 
 bool Image::operator-(const Image &other){
@@ -88,12 +79,14 @@ for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_re
 {
 
     // std::cout << "===================================================" << std::endl;
-    // std::cout << *iter_result << std::endl;
     // std::cout << *iter_to_subtract << std::endl;
+    // std::cout << *iter_result << std::endl;
     u_char value;
-    value = *iter_result - *iter_to_subtract;
+    value = *iter_to_subtract - *iter_result;
+
+    // value = *iter_result - *iter_to_subtract;
     *iter_result = clamp(value);
-        // std::cout << *iter_result << std::endl;
+        std::cout << int(*iter_result )<< std::endl;
         // std::cout << "===================================================" << std::endl;
         iter_to_subtract++;
 }
