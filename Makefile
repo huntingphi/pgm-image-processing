@@ -19,6 +19,7 @@ test: 000-CatchMain.o Image.o tester.o
 
 driver.o: driver.cpp
 	$(CXX) $(CXXFLAGS) -c src/driver.cpp -o build/driver.o
+	
 
 tester.o: tester.cpp
 	$(CXX) $(CXXFLAGS) -c test/tester.cpp -o build/tester.o

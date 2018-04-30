@@ -11,16 +11,23 @@ class Image{
 
   public:
     std::unique_ptr<unsigned char[]> data;
+    class filter{
+      int n;
+      // float[][] filter_matrix;
+
+    };
     class iterator
     {
         friend Image;
       private:
+        int index;
         unsigned char *ptr;
         // construct only via Image class (begin/end)
-        iterator(u_char *p) : ptr(p) {}
+        iterator(u_char *p) : ptr(p),index(0) {}
+        iterator(u_char *p,int i) : ptr(p), index(i) {}
 
       public: //copy construct is public
-        iterator(const iterator &rhs) : ptr(rhs.ptr) {}
+        iterator(const iterator &rhs) : ptr(rhs.ptr),index(rhs.index) {}
         //Destructor
         ~iterator(){}
         // define overloaded ops: *, ++, --, =
@@ -32,6 +39,7 @@ class Image{
         friend void swap(iterator &lhs, iterator &rhs);
         iterator &operator++(){
             //prefix increment
+            ++index;
             ++ptr;
             return *this;
 
@@ -46,6 +54,7 @@ class Image{
         iterator &operator--(){
           //prefix decrement
           --ptr;
+          --index;
           return *this;
         }
         iterator &operator--(int){
@@ -55,7 +64,10 @@ class Image{
           return temp;
         }
 
-
+        bool operator!=(const iterator &rhs)
+        {
+          return this->index != rhs.index;
+        }
     };
     // other methods for iterator
     // define begin()/end() to get iterator to start and
@@ -63,11 +75,8 @@ class Image{
     iterator begin(void) const{ return iterator(data.get()); } // etc
     iterator end(void) const{
       unsigned char* this_data = data.get();
-      // std::cout << "Width: " << width << " Height: " << height << '\n';
-      // std::cout << " Begining address "<< long(data.get())<<" End address "<<long(&this_data[width*height]) << '\n';
-
-      return iterator(&this_data[width*height]);
-      } // etc
+      return iterator(&this_data[width * height], this->width * this->height - 1);
+      }
 
     // /***********************BIG SIX**********************/
     Image(int w, int h, unsigned char *d);
@@ -88,15 +97,15 @@ class Image{
     bool operator-(const Image &); //subtraction of two images (I1 − I2)
     bool operator!();              //Invert an image (!I2)
     bool operator/(const Image &); //mask I1 with I2 (I1 / I2)
-    bool operator*(const Image &); //threshold with f (int) (I1 * f)
+    bool operator*(const int f); //threshold with f (int) (I1 * f)
     bool operator%(const Image &); //filter with f (int) (I1 * f)
 
     ///////////////////////////////////////////////////
 
     /****************IO OPERATOR OVERLOADING***************/
-    friend std::ostream &operator<<(std::ostream &output, const Image &I);
+    void operator<<(const std::string file);
 
-    friend std::istream &operator>>(std::istream &input, Image &I);
+    void operator>>(const std::string file);
 
     /****************RELATIONAL OPERATOR OVERLOADING***************/
     bool operator!=(const Image &other) const;
@@ -105,6 +114,7 @@ class Image{
 
     void load(std::string input_name);
     void save(std::string output_name);
+    unsigned char clamp(unsigned char pixel);    
 
 
 
