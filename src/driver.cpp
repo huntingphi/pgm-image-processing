@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc == 3)
+    if (argc == 4)
     {
         std::string operation(argv[1]);
         if(operation != "-i"){
@@ -11,12 +11,12 @@ int main(int argc, char *argv[])
             return 1;
         }
         Image l1;
-        l1.load(argv[2]);
+        l1<<(argv[2]);
         !l1;
-        l1.save(argv[2]);
+        l1>>(argv[3]);
         
         
-    }else if(argc == 4&&*argv[1]=='-'){
+    }else if(argc == 5&&*argv[1]=='-'){
         char operation(*(argv[1]+1));//Extract the 2nd character of the second argument
         switch(operation){
         case 'a':
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
             Image image_to_add;
             image_to_add<<(argv[3]);
             image_result + image_to_add;
-            image_result>>(argv[2]);
+            image_result>>(argv[4]);
             break;
         }
         case 's':
@@ -36,17 +36,17 @@ int main(int argc, char *argv[])
             Image image_to_subtract;
             image_to_subtract<<(argv[3]);
             image_result - image_to_subtract;
-            image_result<<(argv[2]);
+            image_result>>(argv[4]);
             break;
         }
         case 'l':
         {
             Image image_result;
-            image_result.load(argv[2]);
+            image_result<<(argv[2]);
             Image image_mask;
-            image_mask.load(argv[2]);
+            image_mask<<(argv[3]);
             image_result / image_mask;
-            image_result.save(argv[2]);
+            image_result>>(argv[4]);
             break;
         }
         case 't':
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
             float f=std::atof(argv[3]);
             // u_char f = reinterpret_cast<unsigned char>(argv[3]);
             image_result*f;
-            image_result>>(argv[2]);
+            image_result>>(argv[4]);
             break;
             }
         }

@@ -61,23 +61,21 @@
     /****************BINARY OPERATOR OVERLOADING***************/
 bool Image::operator+(const Image &other){
     iterator iter_to_add = other.begin();
-    int c = width * height;
+    for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
 
-    for (iterator iter_result = begin(); c!=0; iter_result++)
     {
         // std::cout << "===================================================" << std::endl;
         // std::cout << *iter_result << std::endl;
         // std::cout << *iter_to_add << std::endl;
         u_char value;
         value = *iter_result + *iter_to_add;
-        // *iter_result = *iter_result+ *iter_to_add;
-                           *iter_result = clamp(value);
+        *iter_result = *iter_result+ *iter_to_add;
+                        //    *iter_result = clamp(value);
 
                            // std::cout << *iter_result << std::endl;
                         //    std::cout << "===================================================" << std::endl;
                            iter_to_add++;
                         //    std::cout << c<< std::endl;
-                           c--;
     }
     //addition of two images (I1 + I2)
 
@@ -85,10 +83,10 @@ bool Image::operator+(const Image &other){
 bool Image::operator-(const Image &other){
 //subtraction of two images (I1 − I2)
 iterator iter_to_subtract = other.begin();
-int c = width * height;
 
-for (iterator iter_result = begin(); c!=0; iter_result++)
+for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
 {
+
     // std::cout << "===================================================" << std::endl;
     // std::cout << *iter_result << std::endl;
     // std::cout << *iter_to_subtract << std::endl;
@@ -98,7 +96,6 @@ for (iterator iter_result = begin(); c!=0; iter_result++)
         // std::cout << *iter_result << std::endl;
         // std::cout << "===================================================" << std::endl;
         iter_to_subtract++;
-    c--;
 }
 } 
 bool Image::operator!(){
