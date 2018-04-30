@@ -5,17 +5,14 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include "../include/Filter.h"
 class Image{
   private:  
     int width, height;
 
   public:
     std::unique_ptr<unsigned char[]> data;
-    class filter{
-      int n;
-      // float[][] filter_matrix;
-
-    };
+    // friend Filter;
     class iterator
     {
         friend Image;

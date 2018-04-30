@@ -4,12 +4,20 @@
         data = std::unique_ptr<unsigned char []>(d);
     }
     Image::Image():width(0),height(0) {
-        data = {u_char(0)};
+        // data = {u_char(0)};
     }
-    Image::~Image() {}
+    Image::~Image() {
+        this->width = 0;
+        this->height = 0;
+        this->data.~unique_ptr();
+    }
     Image::Image(const Image &other) {
+        // Image();
         this->width = other.width;
         this->height = other.height;
+        unsigned char* buffer = new unsigned char[width*height];
+        data = std::unique_ptr<unsigned char []>(buffer);
+        
         Image::iterator beg = this->begin(), end = this->end();
         Image::iterator inStart = other.begin(), inEnd = other.end();
         while (beg != end)
@@ -22,6 +30,8 @@
     Image &Image::operator=(const Image &other) {
         this->width = other.width;
         this->height = other.height;
+        unsigned char *buffer = new unsigned char[width * height];
+        data = std::unique_ptr<unsigned char[]>(buffer);
         Image::iterator beg = this->begin(), end = this->end();
         Image::iterator inStart = other.begin(), inEnd = other.end();
         while (beg != end)
@@ -36,7 +46,10 @@
         this->data = nullptr;
         this->width = other.width;
         this->height = other.height;
+        unsigned char *buffer = new unsigned char[width * height];
+        data = std::unique_ptr<unsigned char[]>(buffer);
         this->data = std::move(other.data);
+        
         other.width =0;
         other.height =0;
         other.data = nullptr;
@@ -50,7 +63,10 @@
             this->data = nullptr;
             this->width = other.width;
             this->height = other.height;
+            unsigned char *buffer = new unsigned char[width * height];
+            data = std::unique_ptr<unsigned char[]>(buffer);
             this->data = std::move(other.data);
+
             other.width = 0;
             other.height = 0;
             other.data = nullptr;
@@ -77,17 +93,9 @@ iterator iter_to_subtract = other.begin();
 
 for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
 {
-
-    // std::cout << "===================================================" << std::endl;
-    // std::cout << *iter_to_subtract << std::endl;
-    // std::cout << *iter_result << std::endl;
     u_char value;
     value = *iter_to_subtract - *iter_result;
-
-    // value = *iter_result - *iter_to_subtract;
     *iter_result = clamp(value);
-        std::cout << int(*iter_result )<< std::endl;
-        // std::cout << "===================================================" << std::endl;
         iter_to_subtract++;
 }
 } 
@@ -118,6 +126,7 @@ bool Image::operator%(const Image &){
  //filter with f (int) (I1 * f)
 
 
+
 }
 
     ///////////////////////////////////////////////////
@@ -137,9 +146,12 @@ bool Image::operator==(const Image &other) const{
         int size_of_data = other.width*other.height;
         unsigned char* this_buffer = data.get();
         unsigned char* other_buffer = other.data.get();
-        for(int i = 0; i<size_of_data;i++){
-            std::cout<<this_buffer[i]<<" vs "<<other_buffer[i];
-            if(this_buffer[i]!=other_buffer[i])return false;
+        for(int i = 0; i<size_of_data-1;i++){
+            if(this_buffer[i]!=other_buffer[i]){
+                std::cout << int(this_buffer[i]) << " vs " << int(other_buffer[i])<<" i: "<<i;
+
+                return false;
+            }
         }
         return true;
     }

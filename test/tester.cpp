@@ -1,7 +1,62 @@
 #include "../include/catch.hpp"
 #include "../include/Image.h"
+#include "../include/Filter.h"
 
-TEST_CASE("Test =="){
+TEST_CASE("Test move assignment"){
+    Image image_1;
+    image_1 << ("shrek_rectangular.pgm");
+    Image image_3;
+    image_3 << ("shrek_rectangular.pgm");
+    Image image_2(std::move(image_1));
+    REQUIRE(image_2 == image_3);
+    REQUIRE_FALSE(image_1==image_2);
+}
+
+TEST_CASE("Test move constructor"){
+    Image image_1;
+    image_1 << ("shrek_rectangular.pgm");
+    Image image_3;
+    image_3 << ("shrek_rectangular.pgm");
+    Image image_2 = std::move(image_1);
+    REQUIRE(image_2 == image_3);
+    REQUIRE_FALSE(image_1 == image_2);
+}
+
+TEST_CASE("Test copy assignment"){
+    Image image_1;
+    image_1 << ("shrek_rectangular.pgm");
+    Image image_2 = image_1;
+    REQUIRE(image_1 == image_2);
+}
+TEST_CASE("Test copy constructor"){
+    Image image_1;
+    image_1 << ("shrek_rectangular.pgm");
+    Image image_2(image_1);
+    REQUIRE(image_1 == image_2);
+}
+
+TEST_CASE("Test iterator ++ -- begin end and equality operators"){
+    Image image_result;
+    image_result << ("Test.pgm");
+    Image::iterator iter_result = image_result.begin();
+    REQUIRE(*iter_result == '1');
+    iter_result++;
+    REQUIRE(*iter_result == '2');
+    iter_result--;
+    REQUIRE(*iter_result == '1');
+    Image::iterator iter_result_end = image_result.end();
+    iter_result_end--;//Decrement as the iterator returns the element at 1-past-end
+    REQUIRE(*iter_result_end == '1');
+    iter_result_end++;
+    REQUIRE(iter_result!=iter_result_end);
+    for(int i = 0;i<25;i++){
+        iter_result++;
+    }
+    REQUIRE_FALSE(iter_result != iter_result_end);
+}
+
+
+TEST_CASE("Test == "){
     Image image_1;
     image_1<<("Test.pgm");
     Image image_2;
@@ -45,7 +100,9 @@ TEST_CASE("Test add"){
     image_result>>("TestAdd.pgm");
     Image image_expected;
     image_expected<<("TestAdd.pgm");
-    // REQUIRE(image_result == image_expected);
+    unsigned char *buffer = {u_char()};
+    image_expected.data = std::unique_ptr<unsigned char[]>(buffer);
+        REQUIRE(image_result == image_expected);
 }
 
 TEST_CASE("Test subtract"){
@@ -95,5 +152,5 @@ TEST_CASE("Test threshold"){
 }
 
 TEST_CASE("Test filter"){
-
+    // Filter(std::string("blur.fir"));
 }
