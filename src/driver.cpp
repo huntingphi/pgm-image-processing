@@ -25,7 +25,11 @@ int main(int argc, char *argv[])
             image_result<<(argv[2]);
             Image image_to_add;
             image_to_add<<(argv[3]);
-            image_result + image_to_add;
+            bool result = image_result + image_to_add;
+            if (result == false)
+            {
+                std::cerr << "Images must be same width and height!";
+            }
             image_result>>(argv[4]);
             break;
         }
@@ -35,17 +39,25 @@ int main(int argc, char *argv[])
             image_result<<(argv[2]);
             Image image_to_subtract;
             image_to_subtract<<(argv[3]);
-            image_result - image_to_subtract;
+            bool result = image_result - image_to_subtract;
+            if (result == false)
+            {
+                std::cerr << "Images must be same width and height!";
+            }
             image_result>>(argv[4]);
             break;
         }
         case 'l':
         {
+
             Image image_result;
             image_result<<(argv[2]);
             Image image_mask;
             image_mask<<(argv[3]);
-            image_result / image_mask;
+            bool result = image_result / image_mask;
+            if(result ==  false){
+                std::cerr << "Images must be same width and height!";
+            }
             image_result>>(argv[4]);
             break;
         }

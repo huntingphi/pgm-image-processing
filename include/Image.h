@@ -5,14 +5,15 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include "../include/Filter.h"
+// #include "../include/Filter.h"
+class Filter;
 class Image{
   private:  
     int width, height;
 
   public:
     std::unique_ptr<unsigned char[]> data;
-    // friend Filter;
+    friend Filter;
     class iterator
     {
         friend Image;
@@ -112,6 +113,8 @@ class Image{
     void load(std::string input_name);
     void save(std::string output_name);
     unsigned char clamp(unsigned char pixel);    
+    bool rangeCheck(const Image& other)const;
+    
 
 
 

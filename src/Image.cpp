@@ -77,6 +77,8 @@
     /****************BINARY OPERATOR OVERLOADING***************/
 bool Image::operator+(const Image &other){
     //addition of two images (I1 + I2)
+    if(rangeCheck(other)==false)return false;
+    
     iterator iter_to_add = other.begin();
     for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
     {
@@ -89,6 +91,8 @@ bool Image::operator+(const Image &other){
 } 
 bool Image::operator-(const Image &other){
 //subtraction of two images (I1 − I2)
+    if(rangeCheck(other)==false)return false;
+
 iterator iter_to_subtract = other.begin();
 
 for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
@@ -108,6 +112,8 @@ for (iterator iter_result = this->begin(); iter_result!=this->end(); ++iter_resu
 }   
 bool Image::operator/(const Image &other){
 //mask I1 with I2 (I1 / I2)
+    if(rangeCheck(other)==false)return false;
+
 iterator iter_to_mask = other.begin();
 for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
 {
@@ -117,13 +123,15 @@ for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_re
 } 
 bool Image::operator*(const int f){
 //threshold with f (int) (I1 * f)
+
 for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_result)
 {
     *iter_result > u_char(f) ? *iter_result=255:*iter_result=0;
 }
 } 
-bool Image::operator%(const Image &){
+bool Image::operator%(const Image &other){
  //filter with f (int) (I1 * f)
+    if(rangeCheck(other)==false)return false;
 
 
 
@@ -185,6 +193,7 @@ void Image::load(std::string input_name) {
     char *buffer = new char[length_of_data];
     file.read(buffer, length_of_data);
     data = std::unique_ptr<unsigned char []>((unsigned char *) buffer);
+    file.close();
 }
 void Image::save(std::string output_name) {
         std::string filepath = "saved_pgms/" +output_name;//+".pgm";
@@ -202,11 +211,17 @@ void Image::save(std::string output_name) {
 
     unsigned char Image::clamp(unsigned char pixel){
         if (pixel<u_char(0)){
+            std::cout<<"CLAMPED"<<std::endl;
             return u_char(0);
         }else if(pixel>u_char(255)){
+            std::cout << "CLAMPED" << std::endl;
             return u_char(255);
         }
         return pixel;
+    }
+
+    bool Image::rangeCheck(const Image& other)const{
+        return (this->width==other.width&&this->height==other.height);
     }
 
 

@@ -49,7 +49,7 @@ TEST_CASE("Test iterator ++ -- begin end and equality operators"){
     REQUIRE(*iter_result_end == '1');
     iter_result_end++;
     REQUIRE(iter_result!=iter_result_end);
-    for(int i = 0;i<25;i++){
+    for(int i = 1;i<25;i++){
         iter_result++;
     }
     REQUIRE_FALSE(iter_result != iter_result_end);
@@ -92,65 +92,243 @@ TEST_CASE("Test save"){
 }
 
 TEST_CASE("Test add"){
-    Image image_result;
-    image_result<<("Test.pgm");
-    Image image_to_add;
-    image_to_add<<("Test2.pgm");
-    image_result+image_to_add;
-    image_result>>("TestAdd.pgm");
-    Image image_expected;
-    image_expected<<("TestAdd.pgm");
-    unsigned char *buffer = {u_char()};
-    image_expected.data = std::unique_ptr<unsigned char[]>(buffer);
-        REQUIRE(image_result == image_expected);
+    unsigned char *expected_buffer = new unsigned char[25];
+    for(int i =0 ;i<25;){
+
+        for (int j = 1; j < 5; j++)
+        {
+            if(i==25)break;
+            expected_buffer[i] = u_char(j) + u_char(j);
+            i++;
+        }
+    }
+
+    unsigned char *resulting_buffer = new unsigned char[25];
+    for(int i =0 ;i<25;){
+
+        for (int j = 1; j < 5; j++)
+        {
+            if(i==25)break;
+            resulting_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+    
+    unsigned char *added_buffer = new unsigned char[25];
+    for(int i =0 ;i<25;){
+
+        for (int j = 1; j < 5; j++)
+        {
+            if(i==25)break;
+            added_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+
+
+    Image image_resulting(5,5,resulting_buffer);
+    Image image_to_add(5,5,added_buffer);
+    image_resulting + image_to_add;
+    Image image_expected(5,5,expected_buffer);
+    // image_expected<<("TestAdd.pgm");
+        REQUIRE(image_resulting == image_expected);
 }
 
 TEST_CASE("Test subtract"){
-    Image image_result;
-    image_result<<("Test.pgm");
-    Image image_to_add;
-    image_to_add<<("Test2.pgm");
-    image_result - image_to_add;
-    image_result>>("TestSubtract.pgm");
-    Image image_expected;
-    image_expected<<("TestSubtract.pgm");
-    // REQUIRE(image_result == image_expected);
+    unsigned char *expected_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            expected_buffer[i] = u_char(j) - u_char(j);
+            i++;
+        }
+    }
+
+    unsigned char *resulting_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            resulting_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+
+    unsigned char *subtracting_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            subtracting_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+
+    Image image_resulting(5, 5, resulting_buffer);
+    Image image_to_subtract(5, 5, subtracting_buffer);
+    image_resulting - image_to_subtract;
+    Image image_expected(5, 5, expected_buffer);
+    // image_expected<<("TestAdd.pgm");
+    REQUIRE(image_resulting == image_expected);
 }
 
 TEST_CASE("Test inverse"){
-    Image image_result;
-    image_result<<("Lenna_standard.pgm");
-    // Image image_to_add;
-    // image_to_add<<("assets/Test2.pgm");
-    !image_result;
-    image_result>>("TestInverse.pgm");
-    // Image image_expected;
-    // image_expected<<("saved_pgms/TestInverse.pgm");
-    // REQUIRE(image_result == image_expected);
+    unsigned char *expected_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            expected_buffer[i] = 255 - u_char(j);
+            i++;
+        }
+    }
+
+    unsigned char *resulting_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            resulting_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+
+
+
+    Image image_resulting(5, 5, resulting_buffer);
+    !image_resulting;
+    Image image_expected(5, 5, expected_buffer);
+    REQUIRE(image_resulting == image_expected);
 }
 
 TEST_CASE("Test mask"){
-    Image image_result;
-    image_result<<("shrek_rectangular.pgm");
-    Image image_mask;
-    image_mask<<("donkey_mask.pgm");
-    image_result/image_mask;
-    image_result>>("TestMask.pgm");
-    // Image image_expected;
-    // image_expected<<("saved_pgms/TestSubtract.pgm");
+    unsigned char *expected_buffer = new unsigned char[25];
+    
+
+    unsigned char *resulting_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            resulting_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+
+    unsigned char *masking_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            masking_buffer[i] = u_char(j);
+            i++;
+        }
+
+        for (int i = 0; i < 25;)
+        {
+
+            for (int j = 1; j < 5; j++)
+            {
+                if (i == 25)
+                    break;
+                masking_buffer[i] == 255 ? expected_buffer[i] = resulting_buffer[i] : expected_buffer[i] = u_char(0);
+                // expected_buffer[i] = u_char(j) - u_char(j);
+                i++;
+            }
+        }
+    }
+
+    Image image_resulting(5, 5, resulting_buffer);
+    Image image_to_mask(5, 5, masking_buffer);
+    image_resulting / image_to_mask;
+    Image image_expected(5, 5, expected_buffer);
+    // image_expected<<("TestAdd.pgm");
+    REQUIRE(image_resulting == image_expected);
 }
 
 TEST_CASE("Test threshold"){
-    Image image_result;
-    image_result<<("shrek_rectangular.pgm");
-    // Image image_mask;
-    // image_mask<<("assets/donkey_mask.pgm");
-    image_result*u_char(255);
-    image_result>>("TestThreshold.pgm");
-    // Image image_expected;
-    // image_expected<<("saved_pgms/TestSubtract.pgm");
+    int t = 2;
+    unsigned char *expected_buffer = new unsigned char[25];
+
+    unsigned char *resulting_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            resulting_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+
+        for (int i = 0; i < 25;)
+        {
+
+            for (int j = 1; j < 5; j++)
+            {
+                if (i == 25)
+                    break;
+                resulting_buffer[i] > u_char(t) ? expected_buffer[i] = u_char(255) : expected_buffer[i] = u_char(0);
+                i++;
+            }
+        }
+    
+
+    Image image_resulting(5, 5, resulting_buffer);
+    image_resulting*t;
+    Image image_expected(5, 5, expected_buffer);
+    // image_expected<<("TestAdd.pgm");
+    REQUIRE(image_resulting == image_expected);
 }
 
 TEST_CASE("Test filter"){
-    // Filter(std::string("blur.fir"));
+    unsigned char *resulting_buffer = new unsigned char[25];
+    for (int i = 0; i < 25;)
+    {
+
+        for (int j = 1; j < 5; j++)
+        {
+            if (i == 25)
+                break;
+            resulting_buffer[i] = u_char(j);
+            i++;
+        }
+    }
+    Image image_resulting(5, 5, resulting_buffer);
+    Filter filter(std::string("blur.fir" ),image_resulting);
+    REQUIRE(filter.data.size()==5);
+    REQUIRE(filter.filter_matrix.size()==5);
+    Image image_test;
+    image_test<<"Lenna_standard.pgm";
+    Filter f(std::string("blur.fir"), image_test);
+    Image image_result;
+    image_result<<"shrek_rectangular.pgm";
+    image_result.data = std::unique_ptr<unsigned char []>((unsigned char *)f.filter_image());
+    // REQUIRE(image_result==image_test);
+    image_result>>"tests.pgm";
+    // filter.filter_image();
 }

@@ -28,7 +28,7 @@ tester.o: tester.cpp
 Image.o: Image.cpp
 	$(CXX) $(CXXFLAGS) -c src/Image.cpp -o build/Image.o
 
-Filter.o: Filter.cpp
+Filter.o: Filter.h Filter.cpp
 	$(CXX) $(CXXFLAGS) -c src/Filter.cpp -o build/Filter.o
 
 000-CatchMain.o: 000-CatchMain.cpp
