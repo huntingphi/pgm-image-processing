@@ -72,6 +72,17 @@ int main(int argc, char *argv[])
             image_result>>(argv[4]);
             break;
             }
+        case 'g':
+            // filter();
+            {
+                Image image_result;
+                image_result << (argv[2]);
+                std::string file = std::string(argv[3]);
+                // u_char f = reinterpret_cast<unsigned char>(argv[3]);
+                image_result %file;
+                image_result >> (argv[4]);
+                break;
+            }
         }
 
         

@@ -5,7 +5,6 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-// #include "../include/Filter.h"
 class Filter;
 class Image{
   private:  
@@ -96,7 +95,7 @@ class Image{
     bool operator!();              //Invert an image (!I2)
     bool operator/(const Image &); //mask I1 with I2 (I1 / I2)
     bool operator*(const int f); //threshold with f (int) (I1 * f)
-    bool operator%(const Image &); //filter with f (int) (I1 * f)
+    bool operator%(const std::string file); //filter with f (int) (I1 * f)
 
     ///////////////////////////////////////////////////
 
@@ -119,4 +118,5 @@ class Image{
 
 
 };
+#include "../include/Filter.h"
 #endif

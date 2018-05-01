@@ -129,12 +129,11 @@ for (iterator iter_result = this->begin(); iter_result != this->end(); ++iter_re
     *iter_result > u_char(f) ? *iter_result=255:*iter_result=0;
 }
 } 
-bool Image::operator%(const Image &other){
- //filter with f (int) (I1 * f)
-    if(rangeCheck(other)==false)return false;
-
-
-
+bool Image::operator%(const std::string file){
+ //filter with % (filter) (I1 % filter)
+ Filter f(file, *this);
+ this->data = std::unique_ptr<unsigned char[]>((unsigned char *)f.filter_image());
+ 
 }
 
     ///////////////////////////////////////////////////
