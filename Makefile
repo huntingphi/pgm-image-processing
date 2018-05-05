@@ -9,10 +9,6 @@ build:	000-CatchMain.o Filter.o Image.o driver.o
 run: build
 	bin/imageops $(ARGS)
 
-# test-all: test-tree test-node
-	# ./bin/test-node --success && ./bin/test-tree --success
-
-
 test: 000-CatchMain.o Filter.o Image.o tester.o
 	$(CXX) $(CXXFLAGS) -I ./include -o bin/tester build/000-CatchMain.o build/Filter.o build/Image.o build/tester.o
 	bin/tester
@@ -39,8 +35,6 @@ clean:
 	echo "Cleaning..."
 	find . -type f \( -name "*.o" ! -name "000-CatchMain.o" -or -name "tester" \) -delete
 	find . -type f \( -name "*.gch" -or -name "imageops" \) -delete
-    # find . -type f -name "*.gch" -delete
-    # find . -type f \( -name "*lorem.*" ! -name "lorem.txt" -or -name "lorem" \) -delete
 
 
 

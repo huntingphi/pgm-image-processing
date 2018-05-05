@@ -1,7 +1,7 @@
-# CSC3022H - Assignment 3 - Huffman Tree Encoding
+# CSC3022H - Assignment 4 - Basic Image Processing
 
 Jethro Moller  
-12 April 2018
+30 April 2018
 
 ----
 
@@ -24,4 +24,8 @@ Jethro Moller
 
 #### Additional notes
 
-None.
+-g is used to invoke the filter operation. eg: bin/imageops MyImage.pgm MyFilter.fir MyOutput.pgm
+
+The filter is assumed to be found in assets/sample_filters
+
+The filter function doesn't work but please still try to award marks for code logic and test cases.

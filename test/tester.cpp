@@ -326,7 +326,7 @@ TEST_CASE("Test filter"){
     image_test<<"Lenna_standard.pgm";
     Filter f(std::string("blur.fir"), image_test);
     Image image_result;
-    image_result<<"shrek_rectangular.pgm";
+    image_result << "Lenna_standard.pgm";
     image_result.data = std::unique_ptr<unsigned char []>((unsigned char *)f.filter_image());
     // REQUIRE(image_result==image_test);
     image_result>>"tests.pgm";
